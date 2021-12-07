@@ -2,8 +2,8 @@ package com.RKCummins.CryptoTracker.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,12 +11,13 @@ import java.util.UUID;
 public class User {
 
     @Id
-    @GeneratedValue
-    private UUID id;
-    private Email email;
+    @GeneratedValue(strategy =GenerationType.AUTO)
+    private Long id;
+    private String name;
+    private String email;
     private Date created;
 
-    public User(UUID id, Email email, Date created) {
+    public User(Long id, String name, String email, Date created) {
         this.id = id;
         this.email = email;
         this.created = created;
@@ -34,11 +35,15 @@ public class User {
                 '}';
     }
 
-    public void setId(UUID id) {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setEmail(Email email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -46,11 +51,15 @@ public class User {
         this.created = created;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public Email getEmail() {
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
         return email;
     }
 
