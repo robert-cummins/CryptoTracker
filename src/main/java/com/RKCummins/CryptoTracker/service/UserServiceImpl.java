@@ -5,9 +5,9 @@ import com.RKCummins.CryptoTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -19,5 +19,32 @@ public class UserServiceImpl implements UserService {
         Date date = new Date();
         user.setCreated(date);
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    @Override
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public User UpdateUser(Long id, User user) {
+        User userFromDB = userRepository.findById(id).get();
+
+        if(Objects.nonNull(user.getName()) &&
+        !"".equalsIgnoreCase(user.getName())){
+            userFromDB.setName(user.getName());
+        }
+
+        if(Objects.nonNull(user.getEmail()) &&
+                !"".equalsIgnoreCase(user.getEmail())){
+            userFromDB.setEmail(user.getEmail());
+        }
+
+        return userRepository.save(userFromDB);
     }
 }
