@@ -1,10 +1,8 @@
 package com.RKCummins.CryptoTracker.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,10 +15,16 @@ public class User {
     private String email;
     private Date created;
 
-    public User(Long id, String name, String email, Date created) {
+    @OneToMany(targetEntity = Transaction.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private List<Transaction> transactions;
+
+    public User(Long id, String name, String email, Date created, List<Transaction> transactions) {
         this.id = id;
+        this.name = name;
         this.email = email;
         this.created = created;
+        this.transactions = transactions;
     }
 
     public User() {
@@ -30,9 +34,15 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", email=" + email +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
                 ", created=" + created +
+                ", transactions=" + transactions +
                 '}';
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     public void setName(String name) {
@@ -65,5 +75,9 @@ public class User {
 
     public Date getCreated() {
         return created;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }
