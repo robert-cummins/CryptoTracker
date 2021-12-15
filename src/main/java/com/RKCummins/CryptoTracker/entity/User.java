@@ -1,9 +1,7 @@
 package com.RKCummins.CryptoTracker.entity;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class User {
@@ -13,13 +11,13 @@ public class User {
     private Long id;
     private String name;
     private String email;
-    private Date created;
+    private String created;
 
     @OneToMany(targetEntity = Transaction.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private List<Transaction> transactions;
 
-    public User(Long id, String name, String email, Date created, List<Transaction> transactions) {
+    public User(Long id, String name, String email, String created, List<Transaction> transactions) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -57,7 +55,7 @@ public class User {
         this.email = email;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 
@@ -73,7 +71,7 @@ public class User {
         return email;
     }
 
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 

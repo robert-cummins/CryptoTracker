@@ -16,13 +16,15 @@ public class Transaction {
     private BigDecimal amount;
     @Column(name="user_id")
     private Long userId;
+    private String created;
 
-    public Transaction(Long id, String crypto, BigDecimal price, BigDecimal amount, Long userId) {
+    public Transaction(Long id, String crypto, BigDecimal price, BigDecimal amount, Long userId, String created) {
         this.id = id;
         this.crypto = crypto;
         this.price = price;
         this.amount = amount;
         this.userId = userId;
+        this.created = created;
     }
 
     public Transaction() {
@@ -59,6 +61,10 @@ public class Transaction {
         return amount;
     }
 
+    public String getCreated() {
+        return created;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -77,5 +83,9 @@ public class Transaction {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 }
