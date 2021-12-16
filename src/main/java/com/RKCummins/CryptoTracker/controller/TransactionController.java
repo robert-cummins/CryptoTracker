@@ -1,15 +1,14 @@
 package com.RKCummins.CryptoTracker.controller;
 
 import com.RKCummins.CryptoTracker.entity.Transaction;
-import com.RKCummins.CryptoTracker.entity.User;
-import com.RKCummins.CryptoTracker.repository.TransactionRepository;
-import com.RKCummins.CryptoTracker.repository.UserRepository;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.RKCummins.CryptoTracker.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class TransactionController {
