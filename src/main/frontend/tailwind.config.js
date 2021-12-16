@@ -9,7 +9,7 @@ module.exports = {
         teal: colors.teal,
         orange: colors.orange,
         amber: colors.amber,
-        lime: colors.lime
+        lime: colors.lime,
       }
     },
   },
