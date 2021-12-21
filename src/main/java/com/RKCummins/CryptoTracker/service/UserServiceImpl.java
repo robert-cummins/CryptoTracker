@@ -5,9 +5,10 @@ import com.RKCummins.CryptoTracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -16,8 +17,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Override
     public User saveUser(User user) {
-        Date date = new Date();
-        user.setCreated(date);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        LocalDate date = LocalDate.now();
+        user.setCreated(dtf.format(date));
         return userRepository.save(user);
     }
 

@@ -5,7 +5,13 @@ import com.RKCummins.CryptoTracker.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Objects;
+
+
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -15,9 +21,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction addTransaction(Long id, Transaction transaction) {
-        System.out.println(transaction.toString());
         transaction.setUserId(id);
-        System.out.println(transaction.toString());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        LocalDate date = LocalDate.now();
+        transaction.setCreated(dtf.format(date));
         return transactionRepository.save(transaction);
     }
 

@@ -1,94 +1,97 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import UserAPI from '../api/UserAPI';
+import TransactionsAPI from '../api/TransactionsAPI';
 
 const Transactions = (props) => {
+
+    const [transactions, setTransactions] = React.useState([])
+
+    useEffect(() => {
+        UserAPI.getUserById("37").then(response => {
+            setTransactions(response.data.transactions)
+            console.log(response.data.transactions)
+        })
+
+    }, [])
+
+    const deleteTransaction = (e) => {
+        const id = e.target.value.toString()
+        TransactionsAPI.deleteTransaction(id).then(response => {
+            console.log(response.data)
+            UserAPI.getUserById("37").then(response => {
+                setTransactions(response.data.transactions)
+                console.log(response.data.transactions)
+            })
+        })
+    }
+
     return (
 
         <div class="md:container md:mx-auto">
-            {/* <table class="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-5">
-			<thead class="text-white">
-				<tr class="bg-teal-400 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-					<th class="p-3 text-left">Name</th>
-					<th class="p-3 text-left">Email</th>
-					<th class="p-3 text-left" width="110px">Actions</th>
-				</tr>
-				
-			</thead>
-			<tbody class="flex-1 sm:flex-none">
-				<tr class="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
-					<td class="border-grey-light border hover:bg-gray-100 p-3">John Covv</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 truncate">contato@johncovv.com</td>
-					<td class="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">Delete</td>
-				</tr>
-				
-			</tbody>
-		</table> */}
-            <h2 className="text-4xl font-normal text-center leading-normal mt-0 mb-4 text-white">Transactions</h2>
-            <div className=" border-b-2 border-white  w-full sm:grid sm:grid-cols-5 gap-5">
-                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-white">Date</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-white">Crypto</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-white">Amount</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-white">Price</h4>
-                <h4 className=" font-normal sm:text-center leading-normal mt-0 mb-2 text-white">Action</h4>
-            </div>
-            <div className=" border-b-2 border-white  w-full sm:grid sm:grid-cols-5 gap-5 ">
-                <h4 className="font-normal sm:text-center leading-normal mt-3  text-white align-middle">13/10/2021</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">Bitcoin</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">0.002342</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">NZ$124.23</h4>
-                <div className="sm:grid sm:grid-cols-2 gap-2">
-                    <button class="w-20 h-7 bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 rounded-full mx-4 mt-1">
-                        Edit
-                    </button>
-                    <button class="w-20 h-7 bg-red-700 hover:bg-red-900 text-white font-bold px-4 rounded-full mx-4 mt-1 ">
-                        Delete
-                    </button>
+            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                    
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+                   
+                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+                  
+                    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div class="sm:flex sm:items-start">
+                                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                   
+                                    <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                        Deactivate account
+                                    </h3>
+                                    <div class="mt-2">
+                                        <p class="text-sm text-gray-500">
+                                            Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                                Deactivate
+                            </button>
+                            <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className=" border-b-2 border-white  w-full sm:grid sm:grid-cols-5 gap-5 ">
-                <h4 className="font-normal sm:text-center leading-normal mt-3  text-white align-middle">13/10/2021</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">Bitcoin</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">0.002342</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">NZ$124.23</h4>
-                <div className="sm:grid sm:grid-cols-2 gap-2">
-                    <button class="w-20 h-7 bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 rounded-full mx-4 mt-1">
-                        Edit
-                    </button>
-                    <button class="w-20 h-7 bg-red-700 hover:bg-red-900 text-white font-bold px-4 rounded-full mx-4 mt-1 ">
-                        Delete
-                    </button>
-                </div>
+
+            <h2 className="text-4xl font-normal text-center leading-normal mt-0 mb-4 text-lime-500 font-VT233">TRANSACTIONS</h2>
+            <div className=" border-b border-lime-500  w-full sm:grid sm:grid-cols-5 gap-5">
+                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Date</h4>
+                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Crypto</h4>
+                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Amount</h4>
+                <h4 className="font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Price</h4>
+                <h4 className=" font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Action</h4>
             </div>
-            <div className=" border-b-2 border-white  w-full sm:grid sm:grid-cols-5 gap-5 ">
-                <h4 className="font-normal sm:text-center leading-normal mt-3  text-white align-middle">13/10/2021</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">Bitcoin</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">0.002342</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">NZ$124.23</h4>
-                <div className="sm:grid sm:grid-cols-2 gap-2">
-                    <button class="w-20 h-7 bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 rounded-full mx-4 mt-1">
-                        Edit
-                    </button>
-                    <button class="w-20 h-7 bg-red-700 hover:bg-red-900 text-white font-bold px-4 rounded-full mx-4 mt-1 ">
-                        Delete
-                    </button>
-                </div>
-            </div>
-            <div className=" border-b-2 border-white  w-full sm:grid sm:grid-cols-5 gap-5 ">
-                <h4 className="font-normal sm:text-center leading-normal mt-3  text-white align-middle">13/10/2021</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">Bitcoin</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">0.002342</h4>
-                <h4 className="font-normal sm:text-center leading-normal mt-3 text-white">NZ$124.23</h4>
-                <div className="sm:grid sm:grid-cols-2 gap-2">
-                    <button class="w-20 h-7 bg-blue-700 hover:bg-blue-900 text-white font-bold px-4 rounded-full mx-4 mt-1">
-                        Edit
-                    </button>
-                    <button class="w-20 h-7 bg-red-700 hover:bg-red-900 text-white font-bold px-4 rounded-full mx-4 mt-1 ">
-                        Delete
-                    </button>
-                </div>
-            </div>
+            {transactions.map(transaction => {
+                return (
+                    <div className=" border-b border-lime-500  w-full sm:grid sm:grid-cols-5 gap-5">
+                        <h4 className="font-normal sm:text-center leading-normal mt-5 mb-4  text-white ">{transaction.created}</h4>
+                        <h4 className="font-normal sm:text-center leading-normal mt-5 mb-4 text-white">{transaction.crypto}</h4>
+                        <h4 className="font-normal sm:text-center leading-normal mt-5 mb-4 text-white">{transaction.amount}</h4>
+                        <h4 className="font-normal sm:text-center leading-normal mt-5 mb-4 text-white">{transaction.price}</h4>
+                        <button onClick={deleteTransaction} value={transaction.id} class="w-17 h-7 bg-lime-600 hover:bg-lime-700 text-white font-bold px-4 rounded-full  sm:text-center m-auto">
+                            Delete
+                        </button>
+                    </div>
+                )
+            })}
         </div>
-
-
     )
 };
 
