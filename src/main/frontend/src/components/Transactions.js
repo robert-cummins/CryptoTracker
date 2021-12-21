@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import UserAPI from '../api/UserAPI';
 import TransactionsAPI from '../api/TransactionsAPI';
 import DeleteModal from './DeleteModal';
@@ -39,7 +39,7 @@ const Transactions = (props) => {
 
     return (
 
-        <div class="md:container md:mx-auto">
+        <div className="md:container md:mx-auto">
             {showDeleteModal &&
                 <DeleteModal deleteTransaction={deleteTransaction} hideDeleteWarning={hideDeleteWarning}/>
             }
@@ -54,12 +54,12 @@ const Transactions = (props) => {
             </div>
             {transactions.map(transaction => {
                 return (
-                    <div className="grid grid-cols-2 border-b border-lime-500  w-full sm:grid sm:grid-cols-5 sm:gap-5">
+                    <div key={transaction.id} className="grid grid-cols-2 border-b border-lime-500  w-full sm:grid sm:grid-cols-5 sm:gap-5">
                         <h4 className="font-normal text-center leading-normal mt-5 mb-4  text-white "><p className="visible sm:invisible text-lime-500">Date</p>{transaction.created}</h4>
                         <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white"><p className="visible sm:invisible text-lime-500">Crypto</p>{transaction.crypto}</h4>
                         <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white"><p className="visible sm:invisible text-lime-500">Amount</p>{transaction.amount}</h4>
                         <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white"><p className="visible sm:invisible text-lime-500">Price</p>{transaction.price}</h4>
-                        <button onClick={showDeleteWarning} value={transaction.id} class="col-span-2 sm:col-span-1 w-17 h-7 bg-lime-600 hover:bg-lime-700 text-white font-bold px-4 rounded-full  sm:text-center m-auto mb-4">
+                        <button onClick={showDeleteWarning} value={transaction.id} className="col-span-2 sm:col-span-1 w-17 h-7 bg-lime-600 hover:bg-lime-700 text-white font-bold px-4 rounded-full  sm:text-center m-auto mb-4">
                             Delete
                         </button>
                     </div>
