@@ -2,6 +2,7 @@ import './App.css';
 import './components/Transactions'
 import React, { useEffect } from 'react';
 import Transactions from './components/Transactions';
+import Crypto from './components/Crypto';
 
 function App() {
 
@@ -11,6 +12,9 @@ function App() {
     switch(component) {
       case "Transactions":
         return <Transactions/>;
+      
+      case "Crypto":
+        return <Crypto/>;
     }
   }
 
