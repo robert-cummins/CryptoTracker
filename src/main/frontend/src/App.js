@@ -6,15 +6,18 @@ import Crypto from './components/Crypto';
 
 function App() {
 
-  const [componentRendered, setComponentRendered] = React.useState("Transactions")
+  const [componentRendered, setComponentRendered] = React.useState("Crypto")
 
   const renderSwitch = (component) => {
     switch(component) {
       case "Transactions":
-        return <Transactions/>;
+        return <Transactions/>
       
       case "Crypto":
-        return <Crypto/>;
+        return <Crypto/>
+
+        case "Holdings":
+          return <Holdings/>
     }
   }
 
