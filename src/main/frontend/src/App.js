@@ -11,10 +11,13 @@ function App() {
   const renderSwitch = (component) => {
     switch(component) {
       case "Transactions":
-        return <Transactions/>;
+        return <Transactions/>
       
       case "Crypto":
-        return <Crypto/>;
+        return <Crypto/>
+
+        case "Holdings":
+          return <Holdings/>
     }
   }
 

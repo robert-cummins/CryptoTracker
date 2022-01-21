@@ -16,11 +16,11 @@ const Crypto = () => {
 
             {cryptos.map(crypto => {
                 return (
-                    <div key={crypto.id} className="grid grid-cols-2 border-b border-lime-500  w-full sm:grid sm:grid-cols-5 sm:gap-5">
-                        <h4 className="font-normal text-center leading-normal mt-5 mb-4  text-white ">{crypto.market_cap_rank}</h4>
+                    <div key={crypto.id} className="grid grid-cols-3 border-b border-lime-500  w-full sm:grid sm:grid-cols-3 sm:gap-3">
+                        {/* <h4 className="font-normal text-center leading-normal mt-5 mb-4  text-white ">{crypto.market_cap_rank}</h4> */}
                         <div className="sm:grid sm:grid-cols-2 sm:gap-2"><img className="object-scale-down h-12 w-12 mx-auto pt-4" src={crypto.image}/><h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white">{crypto.name}</h4></div>
-                        <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white">{crypto.current_price}</h4>
-                        <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white">{crypto.price_change_percentage_24h}</h4>
+                        <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white">${crypto.current_price}</h4>
+                        <h4 className="font-normal text-center leading-normal mt-5 mb-4 text-white">{crypto.price_change_percentage_24h}%</h4>
                         
                     </div>
                 )
