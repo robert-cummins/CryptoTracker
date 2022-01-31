@@ -3,10 +3,11 @@ import './components/Transactions'
 import React, { useEffect } from 'react';
 import Transactions from './components/Transactions';
 import Crypto from './components/Crypto';
+import Holdings from './components/Holdings';
 
 function App() {
 
-  const [componentRendered, setComponentRendered] = React.useState("Crypto")
+  const [componentRendered, setComponentRendered] = React.useState("Holdings")
 
   const renderSwitch = (component) => {
     switch(component) {
