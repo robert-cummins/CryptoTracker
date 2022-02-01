@@ -5,16 +5,8 @@ import DeleteModal from './DeleteModal';
 
 const Transactions = (props) => {
 
-    const [transactions, setTransactions] = React.useState([])
     const [showDeleteModal, setShowDeleteModal] = React.useState(false)
     const [transactionId, setTransactionId] = React.useState(null)
-
-    useEffect(() => {
-        UserAPI.getUserById("37").then(response => {
-            setTransactions(response.data.transactions)
-        })
-
-    }, [])
 
     const showDeleteWarning = (e) => {
         setShowDeleteModal(true)
@@ -30,9 +22,7 @@ const Transactions = (props) => {
         
         TransactionsAPI.deleteTransaction(transactionId).then(response => {
             console.log(response.data)
-            UserAPI.getUserById("37").then(response => {
-                setTransactions(response.data.transactions)
-            })
+            props.getUser()
         })
         setShowDeleteModal(false)
     }
@@ -52,7 +42,7 @@ const Transactions = (props) => {
                 <h4 className="invisible sm:visible font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Price</h4>
                 <h4 className="invisible sm:visible font-normal sm:text-center leading-normal mt-0 mb-2 text-lime-500">Action</h4>
             </div>
-            {transactions.map(transaction => {
+            {props.transactions && props.transactions.map(transaction => {
                 return (
                     <div key={transaction.id} className="grid grid-cols-2 border-b border-lime-500  w-full sm:grid sm:grid-cols-5 sm:gap-5">
                         <h4 className="font-normal text-center leading-normal mt-5 mb-4  text-white "><p className="visible sm:invisible text-lime-500">Date</p>{transaction.created}</h4>
